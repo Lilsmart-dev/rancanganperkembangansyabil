@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacak Harian Perkembangan Anak</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for plotting graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #333;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .section-header {
+            background-color: #e0f2fe; /* Lighter blue */
+            border-left: 8px solid #3b82f6; /* Blue border */
+        }
+        .activity-card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+        }
+        .btn-danger {
+            background-color: #ef4444; /* Red */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* Darker red on hover */
+        }
+        textarea {
+            resize: vertical; /* Allow vertical resizing of textareas */
+        }
+        input[type="radio"]:checked + label {
+            background-color: #bfdbfe; /* Light blue when selected */
+            border-color: #60a5fa;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        label.radio-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        label.radio-label:hover {
+            background-color: #f1f5f9;
+        }
+        canvas {
+            background-color: #ffffff; /* White background for the chart area */
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .visual-schedule-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .visual-schedule-icon {
+            font-size: 2.5rem; /* Larger emoji/icon size */
+            margin-bottom: 0.5rem;
+        }
+        .visual-schedule-time {
+            font-weight: bold;
+            color: #3b82f6; /* Blue for time */
+        }
+        .visual-schedule-activity {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        /* Custom Message Box Styles */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .message-box-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .message-box-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .message-box-overlay.active .message-box-content {
+            transform: translateY(0);
+        }
+        .message-box-content h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .message-box-content p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        .message-box-actions button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .message-box-actions .confirm-btn {
+            background-color: #3b82f6;
+            color: white;
+            margin-right: 0.5rem;
+        }
+        .message-box-actions .confirm-btn:hover {
+            background-color: #2563eb;
+        }
+        .message-box-actions .cancel-btn {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        .message-box-actions .cancel-btn:hover {
+            background-color: #d1d5db;
+        }
+        .message-box-actions .ok-btn {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .message-box-actions .ok-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* Loading Indicator Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Above message box */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            flex-direction: column;
+        }
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3b82f6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        /* Summary Output Styles */
+        #aiSummaryOutput {
+            background-color: #e0f2fe; /* Light blue background */
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            display: none; /* Hidden by default */
+        }
+        #aiSummaryOutput h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #1e40af;
+        }
+        #aiSummaryOutput p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="container mx-auto bg-white rounded-lg shadow-xl p-6 md:p-10 mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6">Pelacak Harian Perkembangan Anak 🧠</h1>
+        <p class="text-center text-gray-600 mb-8">Isi data harian untuk memantau kemajuan perkembangan anak Anda.</p>
+
+        <!-- Profil Anak -->
+        <div class="bg-blue-50 p-6 rounded-lg mb-8 border-l-4 border-blue-400">
+            <h2 class="text-2xl font-semibold text-blue-800 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Profil Sensoris & Perilaku Anak
+            </h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li><strong class="text-gray-900">Nama:</strong> Muhammad Syabil Raindra</li>
+                <li><strong class="text-gray-900">Usia:</strong> 6 tahun</li>
+                <li><strong class="text-gray-900">Jenis Kelamin:</strong> Laki-laki</li>
+                <li><strong class="text-gray-900">Diagnosis:</strong> ADHD + tantangan regulasi sensoris (SPD)</li>
+                <li><strong class="text-gray-900">Tipe ADHD Dominan:</strong>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><strong class="text-red-600">🔴 Hyper taktil</strong> (sensitif terhadap sentuhan)</li>
+                        <li><strong class="text-blue-600">🔵 Hypo proprioseptif</strong> (kurang cari tekanan)</li>
+                        <li><strong class="text-gray-800">⚫ Kesulitan modulasi gerakan</strong> → sulit atur energi, lempar batu dll.</li>
+                        <li><strong class="text-green-600">🟢 Fokus sangat visual-kines</strong> (belajar dari gerak & lihat)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Visual Schedule Rutinitas Harian (General Overview) -->
+        <div class="mb-10">
+            <h2 class="section-header p-4 text-xl font-semibold text-gray-800 rounded-tr-lg rounded-br-lg mb-6">🗓️ Rutinitas Harian Visual (Gambaran Umum)</h2>
+            <p class="text-gray-600 mb-6">Visualisasi rutinitas harian utama untuk membantu Muhammad Syabil Raindra memahami urutan kegiatan secara umum.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 activity-card p-5 rounded-lg">
+                <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">☀️</span>
+                    <span class="visual-schedule-time">08.00</span>
+                    <span class="visual-schedule-activity">Jalan Pagi</span>
+                </div>
+                <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">💧</span>
+                    <span class="visual-schedule-time">Sebelum Makan</span>
+                    <span class="visual-schedule-activity">Main Air Struktural</span>
+                </div>
+                <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">🎯</span>
+                    <span class="visual-schedule-time">Sore</span>
+                    <span class="visual-schedule-activity">Lempar Target</span>
+                </div>
+                <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">📚</span>
+                    <span class="visual-schedule-time">Malam</span>
+                    <span class="visual-schedule-activity">Cerita Visual</span>
+                </div>
+                 <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">🧼</span>
+                    <span class="visual-schedule-time">Pagi/Malam</span>
+                    <span class="visual-schedule-activity">Mandi</span>
+                </div>
+                <div class="visual-schedule-item">
+                    <span class="visual-schedule-icon">😴</span>
+                    <span class="visual-schedule-time">Sebelum Tidur</span>
+                    <span class="visual-schedule-activity">Brushing & Tekanan</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tanggal Input -->
+        <div class="mb-8">
+            <label for="recordDate" class="block text-lg font-medium text-gray-700 mb-2">Tanggal Catatan:</label>
+            <input type="date" id="recordDate" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-700" value="">
+        </div>
+
+        <!-- Bagian Terapi Neuro-Sensori -->
+        <div class="mb-10">
+            <h2 class="section-header p-4 text-xl font-semibold text-gray-800 rounded-tr-lg rounded-br-lg mb-6">📋 Terapi Neuro-Sensori Terstruktur</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Aktivitas 1: Jalan pagi rutin -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Jalan pagi rutin (10–15 menit)</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Proprioseptif & vestibular</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Berjalan di permukaan berbeda (rumput, kerikil, tanah) untuk stimulasi propioseptif. Berjalan lurus, berbelok, sedikit menanjak/menurun, atau melompat ringan untuk stimulasi vestibular, membantu orientasi ruang dan keseimbangan. Mengangkat kaki tinggi saat melangkah juga memberikan input proprioseptif.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="jalanPagi-1" name="jalanPagiLevel" value="1" class="hidden"><label for="jalanPagi-1" class="radio-label">1</label>
+                            <input type="radio" id="jalanPagi-2" name="jalanPagiLevel" value="2" class="hidden"><label for="jalanPagi-2" class="radio-label">2</label>
+                            <input type="radio" id="jalanPagi-3" name="jalanPagiLevel" value="3" class="hidden"><label for="jalanPagi-3" class="radio-label">3</label>
+                            <input type="radio" id="jalanPagi-4" name="jalanPagiLevel" value="4" class="hidden"><label for="jalanPagi-4" class="radio-label">4</label>
+                            <input type="radio" id="jalanPagi-5" name="jalanPagiLevel" value="5" class="hidden"><label for="jalanPagi-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jalanPagiSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="jalanPagiSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Sangat aktif">
+                    </div>
+                    <div>
+                        <label for="jalanPagiCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="jalanPagiCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 2: Main air struktural -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Main air struktural: tuang, saring, isi-buang</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil & visual fokus</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Sentuhan air, batu, dan perbedaan tekstur wadah menstimulasi taktil (memperkaya sensasi sentuhan). Mengamati aliran air dan posisi batu melatih fokus visual dan melacak objek. Mengatur kekuatan saat menuang air atau mengambil batu juga mendukung modulasi gerakan.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="mainAir-1" name="mainAirLevel" value="1" class="hidden"><label for="mainAir-1" class="radio-label">1</label>
+                            <input type="radio" id="mainAir-2" name="mainAirLevel" value="2" class="hidden"><label for="mainAir-2" class="radio-label">2</label>
+                            <input type="radio" id="mainAir-3" name="mainAirLevel" value="3" class="hidden"><label for="mainAir-3" class="radio-label">3</label>
+                            <input type="radio" id="mainAir-4" name="mainAirLevel" value="4" class="hidden"><label for="mainAir-4" class="radio-label">4</label>
+                            <input type="radio" id="mainAir-5" name="mainAirLevel" value="5" class="hidden"><label for="mainAir-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mainAirSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="mainAirSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Fokus 10 menit">
+                    </div>
+                    <div>
+                        <label for="mainAirCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="mainAirCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 3: Brushing + tekanan dalam -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Brushing + tekanan dalam</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil calming & proprioseptif</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Gerakan sikat terapi/handuk yang ritmis dan tekanan lembut yang konsisten pada lengan/kaki memberikan input taktil menenangkan dan sensasi proprioseptif yang dalam ke otot dan sendi. Ini membantu kesadaran tubuh dan regulasi emosi, ideal sebelum tidur.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="brushing-1" name="brushingLevel" value="1" class="hidden"><label for="brushing-1" class="radio-label">1</label>
+                            <input type="radio" id="brushing-2" name="brushingLevel" value="2" class="hidden"><label for="brushing-2" class="radio-label">2</label>
+                            <input type="radio" id="brushing-3" name="brushingLevel" value="3" class="hidden"><label for="brushing-3" class="radio-label">3</label>
+                            <input type="radio" id="brushing-4" name="brushingLevel" value="4" class="hidden"><label for="brushing-4" class="radio-label">4</label>
+                            <input type="radio" id="brushing-5" name="brushingLevel" value="5" class="hidden"><label for="brushing-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="brushingSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="brushingSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 menit tenang">
+                    </div>
+                    <div>
+                        <label for="brushingCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="brushingCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 4: Lempar target -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Lempar target – batu atau bola ke ember</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Modulasi gerak</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Mengontrol kekuatan lemparan, akurasi, dan koordinasi mata-tangan melatih modulasi gerakan. Meminta anak untuk "lempar pelan" atau "lempar kuat" membantu ia belajar mengatur energi dan output motoriknya, serta memberikan input proprioseptif.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="lemparTarget-1" name="lemparTargetLevel" value="1" class="hidden"><label for="lemparTarget-1" class="radio-label">1</label>
+                            <input type="radio" id="lemparTarget-2" name="lemparTargetLevel" value="2" class="hidden"><label for="lemparTarget-2" class="radio-label">2</label>
+                            <input type="radio" id="lemparTarget-3" name="lemparTargetLevel" value="3" class="hidden"><label for="lemparTarget-3" class="radio-label">3</label>
+                            <input type="radio" id="lemparTarget-4" name="lemparTargetLevel" value="4" class="hidden"><label for="lemparTarget-4" class="radio-label">4</label>
+                            <input type="radio" id="lemparTarget-5" name="lemparTargetLevel" value="5" class="hidden"><label for="lemparTarget-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lemparTargetSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 7/10):</label>
+                        <input type="text" id="lemparTargetSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 7/10">
+                    </div>
+                    <div>
+                        <label for="lemparTargetCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="lemparTargetCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 5: Cerita visual dengan gambar -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Cerita visual dengan gambar</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Auditori & komunikasi</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Mendengarkan narasi cerita secara aktif menstimulasi pemrosesan auditori. Mengamati gambar-gambar benda nyata secara visual membantu pemahaman reseptif, fokus visual, dan menghubungkan kata dengan objek konkret. Mengajukan pertanyaan tentang gambar ('ini apa?') dan meminta anak menunjuk atau menyebutkan objek akan membantu perluasan kosa kata dan komunikasi ekspresif.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="ceritaVisual-1" name="ceritaVisualLevel" value="1" class="hidden"><label for="ceritaVisual-1" class="radio-label">1</label>
+                            <input type="radio" id="ceritaVisual-2" name="ceritaVisualLevel" value="2" class="hidden"><label for="ceritaVisual-2" class="radio-label">2</label>
+                            <input type="radio" id="ceritaVisual-3" name="ceritaVisualLevel" value="3" class="hidden"><label for="ceritaVisual-3" class="radio-label">3</label>
+                            <input type="radio" id="ceritaVisual-4" name="ceritaVisualLevel" value="4" class="hidden"><label for="ceritaVisual-4" class="radio-label">4</label>
+                            <input type="radio" id="ceritaVisual-5" name="ceritaVisualLevel" value="5" class="hidden"><label for="ceritaVisual-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ceritaVisualSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="ceritaVisualSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 kata baru">
+                    </div>
+                    <div>
+                        <label for="ceritaVisualCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="ceritaVisualCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas BARU: Rutinitas Terstruktur -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Rutinitas Terstruktur</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Transisi, Regulasi Sensoris, Pemahaman Urutan</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Kegiatan terstruktur yang melibatkan urutan langkah yang jelas dan dapat diprediksi membantu Syabil memahami transisi antar kegiatan dan meningkatkan kemandirian. Contoh: rutinitas mandi visual.<br>
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-4 my-3">
+                            <div class="visual-schedule-item">
+                                <span class="visual-schedule-icon">👕</span>
+                                <span class="visual-schedule-activity">Buka baju</span>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
+                            <div class="visual-schedule-item">
+                                <span class="visual-schedule-icon">🚿</span>
+                                <span class="visual-schedule-activity">Guyur air</span>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
+                            <div class="visual-schedule-item">
+                                <span class="visual-schedule-icon">🧴</span>
+                                <span class="visual-schedule-activity">Sabunan</span>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
+                            <div class="visual-schedule-item">
+                                <span class="visual-schedule-icon">💦</span>
+                                <span class="visual-schedule-activity">Bilas</span>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
+                            <div class="visual-schedule-item">
+                                <span class="visual-schedule-icon">🧖‍♂️</span>
+                                <span class="visual-schedule-activity">Handuk</span>
+                            </div>
+                        </div>
+                        Fokus pada konsistensi urutan dan penggunaan isyarat visual (menunjuk gambar/emoji) saat memberikan instruksi verbal.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="rutinitasMandi-1" name="rutinitasMandiLevel" value="1" class="hidden"><label for="rutinitasMandi-1" class="radio-label">1</label>
+                            <input type="radio" id="rutinitasMandi-2" name="rutinitasMandiLevel" value="2" class="hidden"><label for="rutinitasMandi-2" class="radio-label">2</label>
+                            <input type="radio" id="rutinitasMandi-3" name="rutinitasMandiLevel" value="3" class="hidden"><label for="rutinitasMandi-3" class="radio-label">3</label>
+                            <input type="radio" id="rutinitasMandi-4" name="rutinitasMandiLevel" value="4" class="hidden"><label for="rutinitasMandi-4" class="radio-label">4</label>
+                            <input type="radio" id="rutinitasMandi-5" name="rutinitasMandiLevel" value="5" class="hidden"><label for="rutinitasMandi-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rutinitasMandiSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="rutinitasMandiSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Ikut 4 dari 5 langkah">
+                    </div>
+                    <div>
+                        <label for="rutinitasMandiCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="rutinitasMandiCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bagian Terapi Wicara -->
+        <div class="mb-10">
+            <h2 class="section-header p-4 text-xl font-semibold text-gray-800 rounded-tr-lg rounded-br-lg mb-6">🗣️ Terapi Wicara Mandiri Harian (Kegiatan Rumah)</h2>
+            <p class="text-gray-600 mb-6">Target: dari 1 kata → 2 kata → kalimat pendek</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Aktivitas 1: Ulang kata 1 suku -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Ulang kata 1 suku</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Latih artikulasi dasar</p>
+                    <p class="text-sm text-gray-600 mb-4">Cara: Anak melihat gerakan bibir Anda dan meniru suara "ma", "na", "ba" sambil melihat cermin. Ini menguatkan respons auditori dan visual terhadap suara dan gerakan mulut.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="ulangKata1-1" name="ulangKata1Level" value="1" class="hidden"><label for="ulangKata1-1" class="radio-label">1</label>
+                            <input type="radio" id="ulangKata1-2" name="ulangKata1-2" value="2" class="hidden"><label for="ulangKata1-2" class="radio-label">2</label>
+                            <input type="radio" id="ulangKata1-3" name="ulangKata1Level" value="3" class="hidden"><label for="ulangKata1-3" class="radio-label">3</label>
+                            <input type="radio" id="ulangKata1-4" name="ulangKata1Level" value="4" class="hidden"><label for="ulangKata1-4" class="radio-label">4</label>
+                            <input type="radio" id="ulangKata1-5" name="ulangKata1Level" value="5" class="hidden"><label for="ulangKata1-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ulangKata1Skor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 4/5 suku kata jelas):</label>
+                        <input type="text" id="ulangKata1Skor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 4/5">
+                    </div>
+                    <div>
+                        <label for="ulangKata1Catatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="ulangKata1Catatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 2: Main air: “tuang air” -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Main air: “tuang air” (Latih dua kata konkret)</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Latih dua kata konkret</p>
+                    <p class="text-sm text-gray-600 mb-4">Cara: Sambil anak menuang air dan mengamati aksi, katakan & ulang “tuang air”, “batu masuk”. Fokus pada tindakan yang terlihat untuk mengaitkan kata dengan objek/aksi konkret secara visual.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="mainAirWicara-1" name="mainAirWicaraLevel" value="1" class="hidden"><label for="mainAirWicara-1" class="radio-label">1</label>
+                            <input type="radio" id="mainAirWicara-2" name="mainAirWicaraLevel" value="2" class="hidden"><label for="mainAirWicara-2" class="radio-label">2</label>
+                            <input type="radio" id="mainAirWicara-3" name="mainAirWicaraLevel" value="3" class="hidden"><label for="mainAirWicara-3" class="radio-label">3</label>
+                            <input type="radio" id="mainAirWicara-4" name="mainAirWicaraLevel" value="4" class="hidden"><label for="mainAirWicara-4" class="radio-label">4</label>
+                            <input type="radio" id="mainAirWicara-5" name="mainAirWicaraLevel" value="5" class="hidden"><label for="mainAirWicara-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mainAirWicaraSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="mainAirWicaraSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3x tiru 'tuang air'">
+                    </div>
+                    <div>
+                        <label for="mainAirWicaraCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="mainAirWicaraCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 3: Puzzle gambar -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Puzzle gambar</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Memperluas kosa kata</p>
+                    <p class="text-sm text-gray-600 mb-4">Cara: Ambil satu **gambar** dari puzzle atau kartu, katakan “ini apa?” → beri jeda → bantu ucapkan. Menekankan aspek **visual** (gambar) membantu pemahaman reseptif dan ekspresif anak.</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="puzzleGambar-1" name="puzzleGambarLevel" value="1" class="hidden"><label for="puzzleGambar-1" class="radio-label">1</label>
+                            <input type="radio" id="puzzleGambar-2" name="puzzleGambarLevel" value="2" class="hidden"><label for="puzzleGambar-2" class="radio-label">2</label>
+                            <input type="radio" id="puzzleGambar-3" name="puzzleGambarLevel" value="3" class="hidden"><label for="puzzleGambar-3" class="radio-label">3</label>
+                            <input type="radio" id="puzzleGambar-4" name="puzzleGambarLevel" value="4" class="hidden"><label for="puzzleGambar-4" class="radio-label">4</label>
+                            <input type="radio" id="puzzleGambar-5" name="puzzleGambarLevel" value="5" class="hidden"><label for="puzzleGambar-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="puzzleGambarSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 2 kata baru):</label>
+                        <input type="text" id="puzzleGambarSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 2 kata baru">
+                    </div>
+                    <div>
+                        <label for="puzzleGambarCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="puzzleGambarCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 4: Lagu dengan gerakan -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Lagu dengan gerakan</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Auditori-visual motor</p>
+                    <p class="text-sm text-gray-600 mb-4">Cara: Nyanyikan lagu “cicak cicak di dinding” sambil menunjuk objek yang sesuai dan melakukan gerakan motorik sederhana. Ini mengintegrasikan input **auditori** (mendengar lagu), **visual** (melihat gerakan), dan **motorik** (meniru gerakan).</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="laguGerakan-1" name="laguGerakanLevel" value="1" class="hidden"><label for="laguGerakan-1" class="radio-label">1</label>
+                            <input type="radio" id="laguGerakan-2" name="laguGerakanLevel" value="2" class="hidden"><label for="laguGerakan-2" class="radio-label">2</label>
+                            <input type="radio" id="laguGerakan-3" name="laguGerakanLevel" value="3" class="hidden"><label for="laguGerakan-3" class="radio-label">3</label>
+                            <input type="radio" id="laguGerakan-4" name="laguGerakanLevel" value="4" class="hidden"><label for="laguGerakan-4" class="radio-label">4</label>
+                            <input type="radio" id="laguGerakan-5" name="laguGerakanLevel" value="5" class="hidden"><label for="laguGerakan-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="laguGerakanSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
+                        <input type="text" id="laguGerakanSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Ikut 80% gerakan">
+                    </div>
+                    <div>
+                        <label for="laguGerakanCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="laguGerakanCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 5: Responsif gesture -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Responsif gesture</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Bangun makna komunikasi</p>
+                    <p class="text-sm text-gray-600 mb-4">Cara: Ketika anak menunjuk suatu objek atau melakukan gesture, segera berikan respons verbal dan visual yang sesuai ("Oh, mau air ya?" sambil menunjukkan air). Ini membantu anak memahami bahwa gesture memiliki makna dan memicu respons verbal.</p>
+
+                    <div class="mb-3 mt-4"> <!-- Added mt-4 for spacing -->
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="responsifGesture-1" name="responsifGestureLevel" value="1" class="hidden"><label for="responsifGesture-1" class="radio-label">1</label>
+                            <input type="radio" id="responsifGesture-2" name="responsifGestureLevel" value="2" class="hidden"><label for="responsifGesture-2" class="radio-label">2</label>
+                            <input type="radio" id="responsifGesture-3" name="responsifGestureLevel" value="3" class="hidden"><label for="responsifGesture-3" class="radio-label">3</label>
+                            <input type="radio" id="responsifGesture-4" name="responsifGestureLevel" value="4" class="hidden"><label for="responsifGesture-4" class="radio-label">4</label>
+                            <input type="radio" id="responsifGesture-5" name="responsifGestureLevel" value="5" class="hidden"><label for="responsifGesture-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="responsifGestureSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 3x gesture baru):</label>
+                        <input type="text" id="responsifGestureSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3x gesture baru">
+                    </div>
+                    <div>
+                        <label for="responsifGestureCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="responsifGestureCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas BARU: Respons Reseptif Bahasa (Receptive Language Response) -->
+                <div class="activity-card p-5 rounded-lg">
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Respons Reseptif Bahasa (Receptive Language Response)</h3>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Pemahaman dan respons perintah/pertanyaan verbal</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Anak menerima, memahami, dan merespons perintah atau pertanyaan verbal dari orang dewasa melalui pilihan gambar atau tindakan yang sesuai. Contoh: "Kapan kamu mandi?" (minta menunjuk gambar mandi), "Mana bolanya?" (minta menunjuk bola).</p>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
+                        <div class="flex flex-wrap gap-2">
+                            <input type="radio" id="receptiveLang-1" name="receptiveLangLevel" value="1" class="hidden"><label for="receptiveLang-1" class="radio-label">1</label>
+                            <input type="radio" id="receptiveLang-2" name="receptiveLangLevel" value="2" class="hidden"><label for="receptiveLang-2" class="radio-label">2</label>
+                            <input type="radio" id="receptiveLang-3" name="receptiveLangLevel" value="3" class="hidden"><label for="receptiveLang-3" class="radio-label">3</label>
+                            <input type="radio" id="receptiveLang-4" name="receptiveLangLevel" value="4" class="hidden"><label for="receptiveLang-4" class="radio-label">4</label>
+                            <input type="radio" id="receptiveLang-5" name="receptiveLangLevel" value="5" class="hidden"><label for="receptiveLang-5" class="radio-label">5</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="receptiveLangSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 4/5 respons benar):</label>
+                        <input type="text" id="receptiveLangSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 4/5 respons benar">
+                    </div>
+                    <div>
+                        <label for="receptiveLangCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="receptiveLangCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <button id="saveDataBtn" class="btn-primary flex-1 py-3 px-6 rounded-md text-lg font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                <span class="mr-2">💾</span> Simpan Data & Perbarui Grafik
+            </button>
+            <button id="getSummaryBtn" class="btn-primary flex-1 py-3 px-6 rounded-md text-lg font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                <span class="mr-2">✨</span> Dapatkan Ringkasan Harian
+            </button>
+            <button id="clearDataBtn" class="btn-danger flex-1 py-3 px-6 rounded-md text-lg font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75">
+                <span class="mr-2">🗑️</span> Hapus Semua Data
+            </button>
+        </div>
+
+        <!-- AI Summary Output Area -->
+        <div id="aiSummaryOutput" class="mb-10">
+            <h3>Ringkasan Harian AI untuk Muhammad Syabil Raindra</h3>
+            <p id="summaryText">Ringkasan akan muncul di sini setelah Anda mengklik "Dapatkan Ringkasan Harian".</p>
+        </div>
+
+        <!-- Bagian Grafik -->
+        <div class="mb-10">
+            <h2 class="section-header p-4 text-xl font-semibold text-gray-800 rounded-tr-lg rounded-br-lg mb-6">📊 Grafik Perkembangan Level Respons</h2>
+            <div class="activity-card p-5 rounded-lg min-h-[300px] lg:min-h-[400px] flex items-center justify-center">
+                <canvas id="developmentChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mt-4 text-center">Grafik ini menunjukkan Level Respons (1-5) anak Anda untuk setiap aktivitas dari waktu ke waktu. (1 = sangat sulit/butuh bantuan penuh, 5 = mudah/mandiri)</p>
+        </div>
+
+    </div>
+
+    <!-- Custom Message Box HTML -->
+    <div id="messageBoxOverlay" class="message-box-overlay">
+        <div class="message-box-content">
+            <h3 id="messageBoxTitle"></h3>
+            <p id="messageBoxText"></p>
+            <div class="message-box-actions" id="messageBoxActions">
+                <!-- Buttons will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay HTML -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+        <p class="loading-text">Membuat ringkasan...</p>
+    </div>
+
+    <script>
+        let myChart; // Variable to hold the Chart.js instance
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve __app_id and __firebase_config from global scope
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+            // Set default date to today
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            const recordDateInput = document.getElementById('recordDate');
+            recordDateInput.value = `${year}-${month}-${day}`;
+
+            const saveDataBtn = document.getElementById('saveDataBtn');
+            const getSummaryBtn = document.getElementById('getSummaryBtn'); // New button
+            const clearDataBtn = document.getElementById('clearDataBtn');
+            const aiSummaryOutput = document.getElementById('aiSummaryOutput');
+            const summaryText = document.getElementById('summaryText');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            // --- CUSTOM MESSAGE BOX FUNCTIONS ---
+            const messageBoxOverlay = document.getElementById('messageBoxOverlay');
+            const messageBoxTitle = document.getElementById('messageBoxTitle');
+            const messageBoxText = document.getElementById('messageBoxText');
+            const messageBoxActions = document.getElementById('messageBoxActions');
+
+            /**
+             * Displays a custom message box.
+             * @param {string} title - The title of the message box.
+             * @param {string} message - The message content.
+             * @param {'alert'|'confirm'} type - The type of message box ('alert' or 'confirm').
+             * @param {function} [callback] - Callback function for 'confirm' type, called with true/false.
+             */
+            const showMessageBox = (title, message, type, callback = null) => {
+                messageBoxTitle.textContent = title;
+                messageBoxText.textContent = message;
+                messageBoxActions.innerHTML = ''; // Clear previous buttons
+
+                if (type === 'alert') {
+                    const okBtn = document.createElement('button');
+                    okBtn.textContent = 'OK';
+                    okBtn.classList.add('ok-btn');
+                    okBtn.onclick = () => messageBoxOverlay.classList.remove('active');
+                    messageBoxActions.appendChild(okBtn);
+                } else if (type === 'confirm') {
+                    const confirmBtn = document.createElement('button');
+                    confirmBtn.textContent = 'Ya';
+                    confirmBtn.classList.add('confirm-btn');
+                    confirmBtn.onclick = () => {
+                        messageBoxOverlay.classList.remove('active');
+                        if (callback) callback(true);
+                    };
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.textContent = 'Tidak';
+                    cancelBtn.classList.add('cancel-btn');
+                    cancelBtn.onclick = () => {
+                        messageBoxOverlay.classList.remove('active');
+                        if (callback) callback(false);
+                    };
+                    messageBoxActions.appendChild(confirmBtn);
+                    messageBoxActions.appendChild(cancelBtn);
+                }
+                messageBoxOverlay.classList.add('active');
+            };
+
+            // --- LOADING INDICATOR FUNCTIONS ---
+            const showLoading = (message = "Memuat...") => {
+                loadingOverlay.querySelector('.loading-text').textContent = message;
+                loadingOverlay.classList.add('active');
+            };
+
+            const hideLoading = () => {
+                loadingOverlay.classList.remove('active');
+            };
+
+            // --- FUNCTIONS FOR LOCAL STORAGE ---
+
+            // Loads data for the currently selected date, if available
+            const loadDataForCurrentDate = () => {
+                const storedData = getStoredData();
+                const currentDate = recordDateInput.value;
+                const dailyEntry = storedData.find(entry => entry.date === currentDate);
+
+                if (dailyEntry) {
+                    // Populate form fields with loaded data
+                    dailyEntry.activities.forEach(activity => {
+                        const scoreInput = document.getElementById(`${activity.id}Skor`);
+                        const notesTextarea = document.getElementById(`${activity.id}Catatan`);
+                        const levelRadios = document.querySelectorAll(`input[name="${activity.id}Level"]`);
+
+                        if (scoreInput) scoreInput.value = activity.score || '';
+                        if (notesTextarea) notesTextarea.value = activity.notes || '';
+                        if (levelRadios) {
+                            levelRadios.forEach(radio => {
+                                radio.checked = radio.value === activity.level;
+                            });
+                        }
+                    });
+                } else {
+                    // Clear form if no data for current date
+                    clearForm();
+                }
+                // Hide summary output when date changes
+                aiSummaryOutput.style.display = 'none';
+                summaryText.textContent = 'Ringkasan akan muncul di sini setelah Anda mengklik "Dapatkan Ringkasan Harian".';
+            };
+
+            // Saves the current form data to local storage
+            const saveDataToLocalStorage = () => {
+                const recordDate = recordDateInput.value;
+                const allActivityData = [];
+
+                // Collect data for Neuro-Sensory Therapy activities
+                const neuroSensoryActivities = [
+                    { id: "jalanPagi", name: "Jalan pagi rutin", purpose: "Proprioseptif & vestibular" },
+                    { id: "mainAir", name: "Main air struktural", purpose: "Taktil & visual fokus" },
+                    { id: "brushing", name: "Brushing + tekanan dalam", purpose: "Taktil calming & proprioseptif" },
+                    { id: "lemparTarget", name: "Lempar target", purpose: "Modulasi gerak" },
+                    { id: "ceritaVisual", name: "Cerita visual dengan gambar", purpose: "Auditori & komunikasi" },
+                    { id: "rutinitasMandi", name: "Rutinitas Terstruktur", purpose: "Transisi, Regulasi Sensoris, Pemahaman Urutan" }
+                ];
+                neuroSensoryActivities.forEach(item => {
+                    allActivityData.push({
+                        id: item.id,
+                        name: item.name,
+                        purpose: item.purpose,
+                        score: document.getElementById(`${item.id}Skor`).value,
+                        level: getRadioValue(`${item.id}Level`),
+                        notes: document.getElementById(`${item.id}Catatan`).value
+                    });
+                });
+
+                // Collect data for Speech Therapy activities
+                const speechTherapyActivities = [
+                    { id: "ulangKata1", name: "Ulang kata 1 suku", purpose: "Artikulasi dasar" },
+                    { id: "mainAirWicara", name: "Main air: 'tuang air'", purpose: "Dua kata konkret" },
+                    { id: "puzzleGambar", name: "Puzzle gambar", purpose: "Perluasan kosa kata" },
+                    { id: "laguGerakan", name: "Lagu dengan gerakan", purpose: "Auditori-visual motor" },
+                    { id: "responsifGesture", name: "Responsif gesture", purpose: "Makna komunikasi" },
+                    { id: "receptiveLang", name: "Respons Reseptif Bahasa", purpose: "Pemahaman dan respons perintah/pertanyaan verbal" } // NEW activity
+                ];
+                speechTherapyActivities.forEach(item => {
+                    allActivityData.push({
+                        id: item.id,
+                        name: item.name,
+                        purpose: item.purpose,
+                        score: document.getElementById(`${item.id}Skor`).value,
+                        level: getRadioValue(`${item.id}Level`),
+                        notes: document.getElementById(`${item.id}Catatan`).value
+                    });
+                });
+
+                let storedData = getStoredData();
+
+                // Find if an entry for this date already exists
+                const existingIndex = storedData.findIndex(entry => entry.date === recordDate);
+
+                if (existingIndex > -1) {
+                    // Update existing entry
+                    storedData[existingIndex].activities = allActivityData;
+                } else {
+                    // Add new entry
+                    storedData.push({ date: recordDate, activities: allActivityData });
+                }
+
+                // Sort data by date to ensure chart display is chronological
+                storedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                localStorage.setItem('childDevelopmentData', JSON.stringify(storedData));
+                showMessageBox('Data Tersimpan', 'Data harian berhasil disimpan!', 'alert');
+                renderChart(); // Re-render chart after saving
+            };
+
+            // Retrieves all data from local storage
+            const getStoredData = () => {
+                const data = localStorage.getItem('childDevelopmentData');
+                return data ? JSON.parse(data) : [];
+            };
+
+            // Clears all form fields
+            const clearForm = () => {
+                document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+                document.querySelectorAll('textarea').forEach(textarea => textarea.value = '');
+                document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            };
+
+            // --- FUNCTIONS FOR CHARTING ---
+
+            const renderChart = () => {
+                const storedData = getStoredData();
+                const ctx = document.getElementById('developmentChart').getContext('2d');
+
+                // Destroy existing chart instance if it exists
+                if (myChart) {
+                    myChart.destroy();
+                }
+
+                if (storedData.length === 0) {
+                    // Display message if no data
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear canvas
+                    ctx.font = '16px Inter';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#666'; // Gray text for clarity
+                    ctx.fillText('Belum ada data untuk ditampilkan. Isi formulir dan simpan!', ctx.canvas.width / 2, ctx.canvas.height / 2);
+                    return;
+                }
+
+                // Prepare data for Chart.js
+                const labels = storedData.map(entry => {
+                    const dateParts = entry.date.split('-');
+                    return `${dateParts[2]}/${dateParts[1]}`; // Format as DD/MM
+                }); // Dates for X-axis
+
+                const datasets = [];
+                const activityColors = [
+                    '#3b82f6', // blue-500
+                    '#16a34a', // green-600
+                    '#f59e0b', // yellow-500
+                    '#8b5cf6', // purple-500
+                    '#ec4899', // pink-500
+                    '#f97316', // orange-500
+                    '#6b7280', // gray-500
+                    '#06b6d4', // cyan-500
+                    '#84cc16', // lime-500
+                    '#f43f5e'  // rose-500
+                ];
+                let colorIndex = 0;
+
+                const allActivityTypes = [
+                    { id: "jalanPagi", name: "Jalan pagi rutin" },
+                    { id: "mainAir", name: "Main air struktural" },
+                    { id: "brushing", name: "Brushing + tekanan dalam" },
+                    { id: "lemparTarget", name: "Lempar target" },
+                    { id: "ceritaVisual", name: "Cerita visual" },
+                    { id: "rutinitasMandi", name: "Rutinitas Terstruktur" },
+                    { id: "ulangKata1", name: "Ulang kata 1 suku" },
+                    { id: "mainAirWicara", name: "Main air wicara" },
+                    { id: "puzzleGambar", name: "Puzzle gambar" },
+                    { id: "laguGerakan", name: "Lagu dengan gerakan" },
+                    { id: "responsifGesture", name: "Responsif gesture" },
+                    { id: "receptiveLang", name: "Respons Reseptif Bahasa" } // NEW activity for chart
+                ];
+
+                allActivityTypes.forEach(activityMeta => {
+                    const dataPoints = storedData.map(dailyEntry => {
+                        const activity = dailyEntry.activities.find(a => a.id === activityMeta.id);
+                        return activity && activity.level ? parseInt(activity.level) : null;
+                    });
+
+                    // Filter out datasets with no valid data
+                    if (dataPoints.some(point => point !== null)) {
+                         const baseColor = activityColors[colorIndex % activityColors.length];
+                         colorIndex++; // Increment color index for the next activity
+
+                         datasets.push({
+                            label: activityMeta.name,
+                            data: dataPoints,
+                            backgroundColor: baseColor, // Solid color for bars
+                            borderColor: baseColor,
+                            borderWidth: 1
+                        });
+                    }
+                });
+
+                myChart = new Chart(ctx, {
+                    type: 'bar', // Changed to 'bar' chart type
+                    data: {
+                        labels: labels,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Perkembangan Level Respons Anak (Grafik Batang)', // Updated title
+                                font: {
+                                    size: 18,
+                                    family: "Inter"
+                                }
+                            },
+                            tooltip: {
+                                mode: 'index', // Show tooltip for all bars on a specific date
+                                intersect: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += `Level ${context.parsed.y}`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tanggal',
+                                    font: {
+                                        family: "Inter"
+                                    }
+                                },
+                                stacked: false // Set to true if you want stacked bars (not ideal for 'level' data)
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Level Respons (1 = Sulit, 5 = Mudah)',
+                                    font: {
+                                        family: "Inter"
+                                    }
+                                },
+                                beginAtZero: true,
+                                min: 0,
+                                max: 5,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function(value, index, values) {
+                                        if (value === 1) return '1 (Sulit)';
+                                        if (value === 5) return '5 (Mudah)';
+                                        return value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            // Function to get selected radio button value
+            function getRadioValue(name) {
+                const radios = document.querySelectorAll(`input[name="${name}"]:checked`);
+                return radios.length > 0 ? radios[0].value : '';
+            }
+
+            // --- GEMINI API INTEGRATION ---
+
+            // Exponential backoff retry function
+            async function fetchWithExponentialBackoff(url, options, retries = 3, delay = 1000) {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(url, options);
+                        if (!response.ok) {
+                            // If response is not OK, it might be a rate limit or other server error
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response;
+                    } catch (error) {
+                        if (i < retries - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+                        } else {
+                            throw error; // Re-throw error if max retries reached
+                        }
+                    }
+                }
+            }
+
+
+            const getDailySummary = async () => {
+                showLoading('Membuat ringkasan harian... Mohon tunggu.');
+                aiSummaryOutput.style.display = 'block'; // Ensure summary area is visible
+                summaryText.textContent = 'Memuat ringkasan...';
+
+                const recordDate = recordDateInput.value;
+                const storedData = getStoredData();
+                const dailyEntry = storedData.find(entry => entry.date === recordDate);
+
+                if (!dailyEntry || dailyEntry.activities.every(activity => !activity.notes && !activity.score && !activity.level)) {
+                    summaryText.textContent = `Tidak ada catatan yang tersedia untuk tanggal ${recordDate}. Silakan isi data terlebih dahulu.`;
+                    hideLoading();
+                    return;
+                }
+
+                let promptNotes = "";
+                dailyEntry.activities.forEach(activity => {
+                    const notes = activity.notes ? `Catatan: ${activity.notes}` : '';
+                    const score = activity.score ? `Skor/Kuantitas: ${activity.score}` : '';
+                    const level = activity.level ? `Level Respons: ${activity.level}` : '';
+
+                    if (notes || score || level) {
+                        promptNotes += `\n- ${activity.name}:\n`;
+                        if (level) promptNotes += `  Level: ${level}\n`;
+                        if (score) promptNotes += `  Skor: ${score}\n`;
+                        if (notes) promptNotes += `  Catatan: ${notes}\n`;
+                    }
+                });
+
+                if (!promptNotes.trim()) {
+                    summaryText.textContent = `Tidak ada catatan detail yang tersedia untuk tanggal ${recordDate}. Silakan isi data terlebih dahulu.`;
+                    hideLoading();
+                    return;
+                }
+
+                const prompt = `Berikut adalah catatan harian observasi perilaku dan respons sensoris Muhammad Syabil Raindra pada tanggal ${recordDate}. Mohon berikan ringkasan singkat (maksimal 3-4 kalimat) dan poin-poin penting dari observasi ini, fokus pada kemajuan, tantangan, dan pola yang terlihat terkait dengan kebutuhan sensoris dan terapi bicara.
+Nama anak: Muhammad Syabil Raindra, 6 tahun, ADHD + tantangan regulasi sensoris (SPD), Tipe ADHD Dominan: Hyper taktil, Hypo proprioseptif, Kesulitan modulasi gerakan, Fokus sangat visual-kines.
+Catatan observasi:\n${promptNotes.trim()}`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // If you want to use models other than gemini-2.5-flash-preview-05-20 or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetchWithExponentialBackoff(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        summaryText.textContent = text;
+                    } else {
+                        summaryText.textContent = 'Maaf, tidak dapat menghasilkan ringkasan. Struktur respons API tidak terduga.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    summaryText.textContent = `Maaf, terjadi kesalahan saat menghubungi AI. Silakan coba lagi. (${error.message})`;
+                } finally {
+                    hideLoading();
+                }
+            };
+
+
+            // --- EVENT LISTENERS ---
+
+            saveDataBtn.addEventListener('click', saveDataToLocalStorage);
+            getSummaryBtn.addEventListener('click', getDailySummary); // Event listener for new button
+
+            clearDataBtn.addEventListener('click', () => {
+                showMessageBox(
+                    'Konfirmasi Hapus Data',
+                    'Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak bisa dibatalkan.',
+                    'confirm',
+                    (result) => {
+                        if (result) {
+                            localStorage.removeItem('childDevelopmentData');
+                            showMessageBox('Data Dihapus', 'Semua data telah dihapus.', 'alert');
+                            clearForm();
+                            renderChart(); // Clear the chart
+                            aiSummaryOutput.style.display = 'none'; // Hide summary
+                            summaryText.textContent = 'Ringkasan akan muncul di sini setelah Anda mengklik "Dapatkan Ringkasan Harian".';
+                        }
+                    }
+                );
+            });
+
+            // Load data and render chart when the date input changes or on initial load
+            recordDateInput.addEventListener('change', loadDataForCurrentDate);
+
+            // Initial load and render
+            loadDataForCurrentDate();
+            renderChart();
+        });
+    </script>
+</body>
+</html>

@@ -470,7 +470,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Aktivitas A: Latihan 1 Kata → 2 Kata -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Latihan 1 Kata → 2 Kata</h3>
+                    <h3 class="font-bold text-lg text-green-700 mb-3">A. Latihan 1 Kata → 2 Kata</h3>
                     <p class="text-sm text-gray-600 mb-2">Kategori: Komunikasi, Kognitif, Motorik Halus (puzzle).</p>
                     <p class="text-sm text-gray-600 mb-2">Tujuan: Pemahaman & ekspresi visual-verbal.</p>
                     <p class="text-sm text-gray-600 mb-4">Kegiatan: Puzzle kecil → sebut nama objek → tambah deskripsi (“bola” → “bola merah”).</p>
@@ -732,7 +732,7 @@
 
                 // Collect data for Speech Therapy activities
                 const speechTherapyActivities = [
-                    { id: "latihanSatuDuaKata", name: "Latihan 1 Kata → 2 Kata", purpose: "Pemahaman & ekspresi visual-verbal" },
+                    { id: "latihanSatuDuaKata", name: "A. Latihan 1 Kata → 2 Kata", purpose: "Pemahaman & ekspresi visual-verbal" },
                     { id: "gestureVerbalKombinasi", name: "B. Gesture + Verbal Kombinasi", purpose: "Menghubungkan gesture dan kata secara bersamaan untuk meningkatkan ekspresi verbal" },
                     { id: "responsBahasaTingkatLanjut", name: "C. Respons Bahasa Tingkat Lanjut", purpose: "Melatih pemahaman instruksi multi-step dan diskriminasi objek" }
                 ];
@@ -830,7 +830,7 @@
                     { id: "bosCerita", name: "Bos Cerita" },
                     { id: "brushingTekanan", name: "Brushing + Tekanan Dalam" },
                     { id: "rutinitasMandiVisual", name: "Rutinitas Mandi Visual" },
-                    { id: "latihanSatuDuaKata", name: "Latihan 1 Kata → 2 Kata" },
+                    { id: "latihanSatuDuaKata", name: "A. Latihan 1 Kata → 2 Kata" },
                     { id: "gestureVerbalKombinasi", name: "B. Gesture + Verbal Kombinasi" },
                     { id: "responsBahasaTingkatLanjut", name: "C. Respons Bahasa Tingkat Lanjut" }
                 ];
@@ -849,15 +849,21 @@
                          datasets.push({
                             label: activityMeta.name,
                             data: dataPoints,
-                            backgroundColor: baseColor, // Solid color for bars
+                            backgroundColor: baseColor, // Set point background color
                             borderColor: baseColor,
-                            borderWidth: 1
+                            borderWidth: 2, // Thicker lines
+                            fill: false,    // Do not fill area under the line
+                            tension: 0.1,   // Slight curve to lines
+                            pointRadius: 5, // Larger points
+                            pointBackgroundColor: baseColor,
+                            pointBorderColor: '#fff',
+                            pointHoverRadius: 7
                         });
                     }
                 });
 
                 myChart = new Chart(ctx, {
-                    type: 'bar', // Changed to 'bar' chart type
+                    type: 'line', // Changed to 'line' chart type
                     data: {
                         labels: labels,
                         datasets: datasets
@@ -868,14 +874,14 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Perkembangan Level Respons Anak (Grafik Batang)', // Updated title
+                                text: 'Perkembangan Level Respons Anak (Grafik Garis)', // Updated title for line chart
                                 font: {
                                     size: 18,
                                     family: "Inter"
                                 }
                             },
                             tooltip: {
-                                mode: 'index', // Show tooltip for all bars on a specific date
+                                mode: 'index', // Show tooltip for all lines on a specific date
                                 intersect: false,
                                 callbacks: {
                                     label: function(context) {
@@ -900,7 +906,7 @@
                                         family: "Inter"
                                     }
                                 },
-                                stacked: false // Set to true if you want stacked bars (not ideal for 'level' data)
+                                stacked: false // Not stacked for lines
                             },
                             y: {
                                 title: {
@@ -910,9 +916,9 @@
                                         family: "Inter"
                                     }
                                 },
-                                beginAtZero: true,
-                                min: 0,
-                                max: 5,
+                                beginAtZero: false, // Important for showing variations in 1-5 range
+                                min: 1, // Minimum value on Y-axis
+                                max: 5, // Maximum value on Y-axis
                                 ticks: {
                                     stepSize: 1,
                                     callback: function(value, index, values) {

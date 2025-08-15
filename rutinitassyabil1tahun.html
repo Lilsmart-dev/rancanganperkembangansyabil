@@ -228,7 +228,7 @@
 <body class="p-4 sm:p-6 lg:p-8">
     <div class="container mx-auto bg-white rounded-lg shadow-xl p-6 md:p-10 mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6">Pelacak Harian Perkembangan Anak 🧠</h1>
-        <p class="text-center text-gray-600 mb-8">Isi data harian untuk memantau kemajuan perkembangan anak Anda.</p>
+        <p class="text-center text-gray-600 mb-8">Tanggal: 15/08/2025</p>
 
         <!-- Profil Anak -->
         <div class="bg-blue-50 p-6 rounded-lg mb-8 border-l-4 border-blue-400">
@@ -261,23 +261,23 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 activity-card p-5 rounded-lg">
                 <div class="visual-schedule-item">
                     <span class="visual-schedule-icon">☀️</span>
-                    <span class="visual-schedule-time">08.00</span>
-                    <span class="visual-schedule-activity">Jalan Pagi</span>
+                    <span class="visual-schedule-time">Pagi (08.00)</span>
+                    <span class="visual-schedule-activity">Tantangan Cepat</span>
                 </div>
                 <div class="visual-schedule-item">
                     <span class="visual-schedule-icon">💧</span>
-                    <span class="visual-schedule-time">Sebelum Makan</span>
-                    <span class="visual-schedule-activity">Main Air Struktural</span>
+                    <span class="visual-schedule-time">Menjelang Siang</span>
+                    <span class="visual-schedule-activity">Pemimpin Tim</span>
                 </div>
                 <div class="visual-schedule-item">
                     <span class="visual-schedule-icon">🎯</span>
                     <span class="visual-schedule-time">Sore</span>
-                    <span class="visual-schedule-activity">Lempar Target</span>
+                    <span class="visual-schedule-activity">Target Juara</span>
                 </div>
                 <div class="visual-schedule-item">
                     <span class="visual-schedule-icon">📚</span>
                     <span class="visual-schedule-time">Malam</span>
-                    <span class="visual-schedule-activity">Cerita Visual</span>
+                    <span class="visual-schedule-activity">Bos Cerita</span>
                 </div>
                  <div class="visual-schedule-item">
                     <span class="visual-schedule-icon">🧼</span>
@@ -285,7 +285,7 @@
                     <span class="visual-schedule-activity">Mandi</span>
                 </div>
                 <div class="visual-schedule-item">
-                    <span class="visual-schedule-icon">😴</span>
+                    <span class="visual-schedule-icon">🖌️</span>
                     <span class="visual-schedule-time">Sebelum Tidur</span>
                     <span class="visual-schedule-activity">Brushing & Tekanan</span>
                 </div>
@@ -303,180 +303,159 @@
             <h2 class="section-header p-4 text-xl font-semibold text-gray-800 rounded-tr-lg rounded-br-lg mb-6">📋 Terapi Neuro-Sensori Terstruktur</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Aktivitas 1: Jalan pagi rutin -->
+                <!-- Aktivitas 1: Tantangan Cepat – Lari zig-zag + ambil batu -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Jalan pagi rutin (10–15 menit)</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Proprioseptif & vestibular</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Berjalan di permukaan berbeda (rumput, kerikil, tanah) untuk stimulasi propioseptif. Berjalan lurus, berbelok, sedikit menanjak/menurun, atau melompat ringan untuk stimulasi vestibular, membantu orientasi ruang dan keseimbangan. Mengangkat kaki tinggi saat melangkah juga memberikan input proprioseptif.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Tantangan Cepat – Lari zig-zag + ambil batu</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Motorik Kasar, Motorik Halus, Kognitif, Sosial-Emosi, Sensoris Integrasi, Komunikasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Proprioseptif & vestibular, koordinasi tubuh, transisi fokus.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Anak berlari zig-zag, mengambil batu, lalu memasukkan ke ember. Setelah itu duduk dan main puzzle kecil.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="jalanPagi-1" name="jalanPagiLevel" value="1" class="hidden"><label for="jalanPagi-1" class="radio-label">1</label>
-                            <input type="radio" id="jalanPagi-2" name="jalanPagiLevel" value="2" class="hidden"><label for="jalanPagi-2" class="radio-label">2</label>
-                            <input type="radio" id="jalanPagi-3" name="jalanPagiLevel" value="3" class="hidden"><label for="jalanPagi-3" class="radio-label">3</label>
-                            <input type="radio" id="jalanPagi-4" name="jalanPagiLevel" value="4" class="hidden"><label for="jalanPagi-4" class="radio-label">4</label>
-                            <input type="radio" id="jalanPagi-5" name="jalanPagiLevel" value="5" class="hidden"><label for="jalanPagi-5" class="radio-label">5</label>
+                            <input type="radio" id="tantanganCepat-1" name="tantanganCepatLevel" value="1" class="hidden"><label for="tantanganCepat-1" class="radio-label">1</label>
+                            <input type="radio" id="tantanganCepat-2" name="tantanganCepatLevel" value="2" class="hidden"><label for="tantanganCepat-2" class="radio-label">2</label>
+                            <input type="radio" id="tantanganCepat-3" name="tantanganCepatLevel" value="3" class="hidden"><label for="tantanganCepat-3" class="radio-label">3</label>
+                            <input type="radio" id="tantanganCepat-4" name="tantanganCepatLevel" value="4" class="hidden"><label for="tantanganCepat-4" class="radio-label">4</label>
+                            <input type="radio" id="tantanganCepat-5" name="tantanganCepatLevel" value="5" class="hidden"><label for="tantanganCepat-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="jalanPagiSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="jalanPagiSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Sangat aktif">
+                        <label for="tantanganCepatSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="tantanganCepatSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3x coba, waktu tercepat 18 detik.">
                     </div>
                     <div>
-                        <label for="jalanPagiCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="jalanPagiCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="tantanganCepatCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="tantanganCepatCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Amati apakah transisi dari gerak cepat ke duduk tenang lancar atau masih gelisah."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas 2: Main air struktural -->
+                <!-- Aktivitas 2: Pemimpin Tim – Bangun menara batu/kayu -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Main air struktural: tuang, saring, isi-buang</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil & visual fokus</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Sentuhan air, batu, dan perbedaan tekstur wadah menstimulasi taktil (memperkaya sensasi sentuhan). Mengamati aliran air dan posisi batu melatih fokus visual dan melacak objek. Mengatur kekuatan saat menuang air atau mengambil batu juga mendukung modulasi gerakan.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Pemimpin Tim – Bangun menara batu/kayu</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Motorik Kasar, Motorik Halus, Komunikasi, Kognitif, Sosial-Emosi, Sensoris Integrasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil + proprioseptif, keterampilan sosial, bahasa instruksi.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Anak memimpin proyek membangun menara, memberi instruksi, lalu berganti peran.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="mainAir-1" name="mainAirLevel" value="1" class="hidden"><label for="mainAir-1" class="radio-label">1</label>
-                            <input type="radio" id="mainAir-2" name="mainAirLevel" value="2" class="hidden"><label for="mainAir-2" class="radio-label">2</label>
-                            <input type="radio" id="mainAir-3" name="mainAirLevel" value="3" class="hidden"><label for="mainAir-3" class="radio-label">3</label>
-                            <input type="radio" id="mainAir-4" name="mainAirLevel" value="4" class="hidden"><label for="mainAir-4" class="radio-label">4</label>
-                            <input type="radio" id="mainAir-5" name="mainAirLevel" value="5" class="hidden"><label for="mainAir-5" class="radio-label">5</label>
+                            <input type="radio" id="pemimpinTim-1" name="pemimpinTimLevel" value="1" class="hidden"><label for="pemimpinTim-1" class="radio-label">1</label>
+                            <input type="radio" id="pemimpinTim-2" name="pemimpinTimLevel" value="2" class="hidden"><label for="pemimpinTim-2" class="radio-label">2</label>
+                            <input type="radio" id="pemimpinTim-3" name="pemimpinTimLevel" value="3" class="hidden"><label for="pemimpinTim-3" class="radio-label">3</label>
+                            <input type="radio" id="pemimpinTim-4" name="pemimpinTimLevel" value="4" class="hidden"><label for="pemimpinTim-4" class="radio-label">4</label>
+                            <input type="radio" id="pemimpinTim-5" name="pemimpinTimLevel" value="5" class="hidden"><label for="pemimpinTim-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="mainAirSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="mainAirSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Fokus 10 menit">
+                        <label for="pemimpinTimSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="pemimpinTimSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 instruksi verbal benar.">
                     </div>
                     <div>
-                        <label for="mainAirCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="mainAirCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="pemimpinTimCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="pemimpinTimCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Lihat apakah anak tetap memimpin dengan jelas atau kehilangan fokus."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas 3: Brushing + tekanan dalam -->
+                <!-- Aktivitas 3: Target Juara – Lempar batu/bola ke ember -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Brushing + tekanan dalam</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil calming & proprioseptif</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Gerakan sikat terapi/handuk yang ritmis dan tekanan lembut yang konsisten pada lengan/kaki memberikan input taktil menenangkan dan sensasi proprioseptif yang dalam ke otot dan sendi. Ini membantu kesadaran tubuh dan regulasi emosi, ideal sebelum tidur.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Target Juara – Lempar batu/bola ke ember</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Motorik Kasar, Motorik Halus, Kognitif, Sosial-Emosi, Sensoris Integrasi, Komunikasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Modulasi gerak, fokus visual, pengaturan tenaga.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: 5 kali lempar ke ember dekat, 5 kali ke ember jauh. Skor dicatat.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="brushing-1" name="brushingLevel" value="1" class="hidden"><label for="brushing-1" class="radio-label">1</label>
-                            <input type="radio" id="brushing-2" name="brushingLevel" value="2" class="hidden"><label for="brushing-2" class="radio-label">2</label>
-                            <input type="radio" id="brushing-3" name="brushingLevel" value="3" class="hidden"><label for="brushing-3" class="radio-label">3</label>
-                            <input type="radio" id="brushing-4" name="brushingLevel" value="4" class="hidden"><label for="brushing-4" class="radio-label">4</label>
-                            <input type="radio" id="brushing-5" name="brushingLevel" value="5" class="hidden"><label for="brushing-5" class="radio-label">5</label>
+                            <input type="radio" id="targetJuara-1" name="targetJuaraLevel" value="1" class="hidden"><label for="targetJuara-1" class="radio-label">1</label>
+                            <input type="radio" id="targetJuara-2" name="targetJuaraLevel" value="2" class="hidden"><label for="targetJuara-2" class="radio-label">2</label>
+                            <input type="radio" id="targetJuara-3" name="targetJuaraLevel" value="3" class="hidden"><label for="targetJuara-3" class="radio-label">3</label>
+                            <input type="radio" id="targetJuara-4" name="targetJuaraLevel" value="4" class="hidden"><label for="targetJuara-4" class="radio-label">4</label>
+                            <input type="radio" id="targetJuara-5" name="targetJuaraLevel" value="5" class="hidden"><label for="targetJuara-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="brushingSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="brushingSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 menit tenang">
+                        <label for="targetJuaraSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="targetJuaraSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 6/10 tepat sasaran.">
                     </div>
                     <div>
-                        <label for="brushingCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="brushingCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="targetJuaraCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="targetJuaraCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Amati apakah kekuatan sesuai instruksi atau berlebihan."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas 4: Lempar target -->
+                <!-- Aktivitas 4: Bos Cerita – Pilih urutan cerita dengan kartu visual -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Lempar target – batu atau bola ke ember</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Modulasi gerak</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Mengontrol kekuatan lemparan, akurasi, dan koordinasi mata-tangan melatih modulasi gerakan. Meminta anak untuk "lempar pelan" atau "lempar kuat" membantu ia belajar mengatur energi dan output motoriknya, serta memberikan input proprioseptif.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Bos Cerita – Pilih urutan cerita dengan kartu visual</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Motorik Halus, Kognitif, Komunikasi, Sosial-Emosi, Sensoris Integrasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Auditori, pemahaman reseptif & ekspresif, menyusun urutan.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Anak memilih gambar cerita dan menentukan urutannya.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="lemparTarget-1" name="lemparTargetLevel" value="1" class="hidden"><label for="lemparTarget-1" class="radio-label">1</label>
-                            <input type="radio" id="lemparTarget-2" name="lemparTargetLevel" value="2" class="hidden"><label for="lemparTarget-2" class="radio-label">2</label>
-                            <input type="radio" id="lemparTarget-3" name="lemparTargetLevel" value="3" class="hidden"><label for="lemparTarget-3" class="radio-label">3</label>
-                            <input type="radio" id="lemparTarget-4" name="lemparTargetLevel" value="4" class="hidden"><label for="lemparTarget-4" class="radio-label">4</label>
-                            <input type="radio" id="lemparTarget-5" name="lemparTargetLevel" value="5" class="hidden"><label for="lemparTarget-5" class="radio-label">5</label>
+                            <input type="radio" id="bosCerita-1" name="bosCeritaLevel" value="1" class="hidden"><label for="bosCerita-1" class="radio-label">1</label>
+                            <input type="radio" id="bosCerita-2" name="bosCeritaLevel" value="2" class="hidden"><label for="bosCerita-2" class="radio-label">2</label>
+                            <input type="radio" id="bosCerita-3" name="bosCeritaLevel" value="3" class="hidden"><label for="bosCerita-3" class="radio-label">3</label>
+                            <input type="radio" id="bosCerita-4" name="bosCeritaLevel" value="4" class="hidden"><label for="bosCerita-4" class="radio-label">4</label>
+                            <input type="radio" id="bosCerita-5" name="bosCeritaLevel" value="5" class="hidden"><label for="bosCerita-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="lemparTargetSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 7/10):</label>
-                        <input type="text" id="lemparTargetSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 7/10">
+                        <label for="bosCeritaSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="bosCeritaSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Urut 3 gambar dengan benar.">
                     </div>
                     <div>
-                        <label for="lemparTargetCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="lemparTargetCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="bosCeritaCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="bosCeritaCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Perhatikan apakah anak mampu menjelaskan urutannya."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas 5: Cerita visual dengan gambar -->
+                <!-- Aktivitas 5: Brushing + Tekanan Dalam -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Cerita visual dengan gambar</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Auditori & komunikasi</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Mendengarkan narasi cerita secara aktif menstimulasi pemrosesan auditori. Mengamati gambar-gambar benda nyata secara visual membantu pemahaman reseptif, fokus visual, dan menghubungkan kata dengan objek konkret. Mengajukan pertanyaan tentang gambar ('ini apa?') dan meminta anak menunjuk atau menyebutkan objek akan membantu perluasan kosa kata dan komunikasi ekspresif.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Brushing + Tekanan Dalam</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Sensoris Integrasi, Sosial-Emosi, Komunikasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Taktil calming + proprioseptif, membantu tidur.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Brushing di lengan/kaki diikuti tekanan ringan ritmis.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="ceritaVisual-1" name="ceritaVisualLevel" value="1" class="hidden"><label for="ceritaVisual-1" class="radio-label">1</label>
-                            <input type="radio" id="ceritaVisual-2" name="ceritaVisualLevel" value="2" class="hidden"><label for="ceritaVisual-2" class="radio-label">2</label>
-                            <input type="radio" id="ceritaVisual-3" name="ceritaVisualLevel" value="3" class="hidden"><label for="ceritaVisual-3" class="radio-label">3</label>
-                            <input type="radio" id="ceritaVisual-4" name="ceritaVisualLevel" value="4" class="hidden"><label for="ceritaVisual-4" class="radio-label">4</label>
-                            <input type="radio" id="ceritaVisual-5" name="ceritaVisualLevel" value="5" class="hidden"><label for="ceritaVisual-5" class="radio-label">5</label>
+                            <input type="radio" id="brushingTekanan-1" name="brushingTekananLevel" value="1" class="hidden"><label for="brushingTekanan-1" class="radio-label">1</label>
+                            <input type="radio" id="brushingTekanan-2" name="brushingTekananLevel" value="2" class="hidden"><label for="brushingTekanan-2" class="radio-label">2</label>
+                            <input type="radio" id="brushingTekanan-3" name="brushingTekananLevel" value="3" class="hidden"><label for="brushingTekanan-3" class="radio-label">3</label>
+                            <input type="radio" id="brushingTekanan-4" name="brushingTekananLevel" value="4" class="hidden"><label for="brushingTekanan-4" class="radio-label">4</label>
+                            <input type="radio" id="brushingTekanan-5" name="brushingTekananLevel" value="5" class="hidden"><label for="brushingTekanan-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="ceritaVisualSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="ceritaVisualSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 kata baru">
+                        <label for="brushingTekananSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="brushingTekananSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 5 menit tenang setelah brushing.">
                     </div>
                     <div>
-                        <label for="ceritaVisualCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="ceritaVisualCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="brushingTekananCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="brushingTekananCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Catat perbedaan sebelum & sesudah brushing."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas BARU: Rutinitas Terstruktur -->
+                <!-- Aktivitas 6: Rutinitas Mandi Visual -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-700 mb-3">Rutinitas Terstruktur</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Transisi, Regulasi Sensoris, Pemahaman Urutan</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Kegiatan terstruktur yang melibatkan urutan langkah yang jelas dan dapat diprediksi membantu Syabil memahami transisi antar kegiatan dan meningkatkan kemandirian. Contoh: rutinitas mandi visual.<br>
-                        <div class="flex flex-wrap justify-center sm:justify-start gap-4 my-3">
-                            <div class="visual-schedule-item">
-                                <span class="visual-schedule-icon">👕</span>
-                                <span class="visual-schedule-activity">Buka baju</span>
-                            </div>
-                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
-                            <div class="visual-schedule-item">
-                                <span class="visual-schedule-icon">🚿</span>
-                                <span class="visual-schedule-activity">Guyur air</span>
-                            </div>
-                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
-                            <div class="visual-schedule-item">
-                                <span class="visual-schedule-icon">🧴</span>
-                                <span class="visual-schedule-activity">Sabunan</span>
-                            </div>
-                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
-                            <div class="visual-schedule-item">
-                                <span class="visual-schedule-icon">💦</span>
-                                <span class="visual-schedule-activity">Bilas</span>
-                            </div>
-                            <span class="text-2xl font-bold text-gray-500 my-auto">&rarr;</span>
-                            <div class="visual-schedule-item">
-                                <span class="visual-schedule-icon">🧖‍♂️</span>
-                                <span class="visual-schedule-activity">Handuk</span>
-                            </div>
-                        </div>
-                        Fokus pada konsistensi urutan dan penggunaan isyarat visual (menunjuk gambar/emoji) saat memberikan instruksi verbal.</p>
+                    <h3 class="font-bold text-lg text-blue-700 mb-3">Rutinitas Mandi Visual</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Motorik Kasar, Motorik Halus, Kognitif, Komunikasi, Sensoris Integrasi, Sosial-Emosi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Pemahaman urutan, transisi aktivitas.</p>
+                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Gunakan gambar untuk langkah mandi (👕 buka baju → 🚿 guyur → 🧴 sabun → 💦 bilas → 🧖 handuk).</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="rutinitasMandi-1" name="rutinitasMandiLevel" value="1" class="hidden"><label for="rutinitasMandi-1" class="radio-label">1</label>
-                            <input type="radio" id="rutinitasMandi-2" name="rutinitasMandiLevel" value="2" class="hidden"><label for="rutinitasMandi-2" class="radio-label">2</label>
-                            <input type="radio" id="rutinitasMandi-3" name="rutinitasMandiLevel" value="3" class="hidden"><label for="rutinitasMandi-3" class="radio-label">3</label>
-                            <input type="radio" id="rutinitasMandi-4" name="rutinitasMandiLevel" value="4" class="hidden"><label for="rutinitasMandi-4" class="radio-label">4</label>
-                            <input type="radio" id="rutinitasMandi-5" name="rutinitasMandiLevel" value="5" class="hidden"><label for="rutinitasMandi-5" class="radio-label">5</label>
+                            <input type="radio" id="rutinitasMandiVisual-1" name="rutinitasMandiVisualLevel" value="1" class="hidden"><label for="rutinitasMandiVisual-1" class="radio-label">1</label>
+                            <input type="radio" id="rutinitasMandiVisual-2" name="rutinitasMandiVisualLevel" value="2" class="hidden"><label for="rutinitasMandiVisual-2" class="radio-label">2</label>
+                            <input type="radio" id="rutinitasMandiVisual-3" name="rutinitasMandiVisualLevel" value="3" class="hidden"><label for="rutinitasMandiVisual-3" class="radio-label">3</label>
+                            <input type="radio" id="rutinitasMandiVisual-4" name="rutinitasMandiVisualLevel" value="4" class="hidden"><label for="rutinitasMandiVisual-4" class="radio-label">4</label>
+                            <input type="radio" id="rutinitasMandiVisual-5" name="rutinitasMandiVisualLevel" value="5" class="hidden"><label for="rutinitasMandiVisual-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="rutinitasMandiSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="rutinitasMandiSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Ikut 4 dari 5 langkah">
+                        <label for="rutinitasMandiVisualSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="rutinitasMandiVisualSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Ikut 4/5 langkah tanpa bantuan.">
                     </div>
                     <div>
-                        <label for="rutinitasMandiCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="rutinitasMandiCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="rutinitasMandiVisualCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="rutinitasMandiVisualCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Amati apakah mengikuti urutan tanpa diingatkan."></textarea>
                     </div>
                 </div>
             </div>
@@ -488,113 +467,40 @@
             <p class="text-gray-600 mb-6">Target: dari 1 kata → 2 kata → kalimat pendek</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Aktivitas 1: Ulang kata 1 suku -->
+                <!-- Aktivitas A: Latihan 1 Kata → 2 Kata -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Ulang kata 1 suku</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Latih artikulasi dasar</p>
-                    <p class="text-sm text-gray-600 mb-4">Cara: Anak melihat gerakan bibir Anda dan meniru suara "ma", "na", "ba" sambil melihat cermin. Ini menguatkan respons auditori dan visual terhadap suara dan gerakan mulut.</p>
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Latihan 1 Kata → 2 Kata</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Komunikasi, Kognitif, Motorik Halus (puzzle).</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Pemahaman & ekspresi visual-verbal.</p>
+                    <p class="text-sm text-gray-600 mb-4">Kegiatan: Puzzle kecil → sebut nama objek → tambah deskripsi (“bola” → “bola merah”).</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="ulangKata1-1" name="ulangKata1Level" value="1" class="hidden"><label for="ulangKata1-1" class="radio-label">1</label>
-                            <input type="radio" id="ulangKata1-2" name="ulangKata1-2" value="2" class="hidden"><label for="ulangKata1-2" class="radio-label">2</label>
-                            <input type="radio" id="ulangKata1-3" name="ulangKata1Level" value="3" class="hidden"><label for="ulangKata1-3" class="radio-label">3</label>
-                            <input type="radio" id="ulangKata1-4" name="ulangKata1Level" value="4" class="hidden"><label for="ulangKata1-4" class="radio-label">4</label>
-                            <input type="radio" id="ulangKata1-5" name="ulangKata1Level" value="5" class="hidden"><label for="ulangKata1-5" class="radio-label">5</label>
+                            <input type="radio" id="latihanKata-1" name="latihanKataLevel" value="1" class="hidden"><label for="latihanKata-1" class="radio-label">1</label>
+                            <input type="radio" id="latihanKata-2" name="latihanKataLevel" value="2" class="hidden"><label for="latihanKata-2" class="radio-label">2</label>
+                            <input type="radio" id="latihanKata-3" name="latihanKataLevel" value="3" class="hidden"><label for="latihanKata-3" class="radio-label">3</label>
+                            <input type="radio" id="latihanKata-4" name="latihanKataLevel" value="4" class="hidden"><label for="latihanKata-4" class="radio-label">4</label>
+                            <input type="radio" id="latihanKata-5" name="latihanKataLevel" value="5" class="hidden"><label for="latihanKata-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="ulangKata1Skor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 4/5 suku kata jelas):</label>
-                        <input type="text" id="ulangKata1Skor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 4/5">
+                        <label for="latihanKataSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="latihanKataSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3 kata baru.">
                     </div>
                     <div>
-                        <label for="ulangKata1Catatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="ulangKata1Catatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="latihanKataCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="latihanKataCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Lihat apakah kata diingat keesokan hari."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas 2: Main air: “tuang air” -->
+                <!-- Aktivitas B: Responsif Gesture -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Main air: “tuang air” (Latih dua kata konkret)</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Latih dua kata konkret</p>
-                    <p class="text-sm text-gray-600 mb-4">Cara: Sambil anak menuang air dan mengamati aksi, katakan & ulang “tuang air”, “batu masuk”. Fokus pada tindakan yang terlihat untuk mengaitkan kata dengan objek/aksi konkret secara visual.</p>
-                    <div class="mb-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
-                        <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="mainAirWicara-1" name="mainAirWicaraLevel" value="1" class="hidden"><label for="mainAirWicara-1" class="radio-label">1</label>
-                            <input type="radio" id="mainAirWicara-2" name="mainAirWicaraLevel" value="2" class="hidden"><label for="mainAirWicara-2" class="radio-label">2</label>
-                            <input type="radio" id="mainAirWicara-3" name="mainAirWicaraLevel" value="3" class="hidden"><label for="mainAirWicara-3" class="radio-label">3</label>
-                            <input type="radio" id="mainAirWicara-4" name="mainAirWicaraLevel" value="4" class="hidden"><label for="mainAirWicara-4" class="radio-label">4</label>
-                            <input type="radio" id="mainAirWicara-5" name="mainAirWicaraLevel" value="5" class="hidden"><label for="mainAirWicara-5" class="radio-label">5</label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="mainAirWicaraSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="mainAirWicaraSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3x tiru 'tuang air'">
-                    </div>
-                    <div>
-                        <label for="mainAirWicaraCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="mainAirWicaraCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
-                    </div>
-                </div>
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Responsif Gesture</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Sosial-Emosi, Komunikasi.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Menghubungkan gesture → makna → kata.</p>
+                    <p class="text-sm text-gray-600 mb-4">Kegiatan: Anak menunjuk → orang tua respon verbal & tunjukkan objek.</p>
 
-                <!-- Aktivitas 3: Puzzle gambar -->
-                <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Puzzle gambar</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Memperluas kosa kata</p>
-                    <p class="text-sm text-gray-600 mb-4">Cara: Ambil satu **gambar** dari puzzle atau kartu, katakan “ini apa?” → beri jeda → bantu ucapkan. Menekankan aspek **visual** (gambar) membantu pemahaman reseptif dan ekspresif anak.</p>
-                    <div class="mb-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
-                        <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="puzzleGambar-1" name="puzzleGambarLevel" value="1" class="hidden"><label for="puzzleGambar-1" class="radio-label">1</label>
-                            <input type="radio" id="puzzleGambar-2" name="puzzleGambarLevel" value="2" class="hidden"><label for="puzzleGambar-2" class="radio-label">2</label>
-                            <input type="radio" id="puzzleGambar-3" name="puzzleGambarLevel" value="3" class="hidden"><label for="puzzleGambar-3" class="radio-label">3</label>
-                            <input type="radio" id="puzzleGambar-4" name="puzzleGambarLevel" value="4" class="hidden"><label for="puzzleGambar-4" class="radio-label">4</label>
-                            <input type="radio" id="puzzleGambar-5" name="puzzleGambarLevel" value="5" class="hidden"><label for="puzzleGambar-5" class="radio-label">5</label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="puzzleGambarSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 2 kata baru):</label>
-                        <input type="text" id="puzzleGambarSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 2 kata baru">
-                    </div>
-                    <div>
-                        <label for="puzzleGambarCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="puzzleGambarCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Aktivitas 4: Lagu dengan gerakan -->
-                <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Lagu dengan gerakan</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Auditori-visual motor</p>
-                    <p class="text-sm text-gray-600 mb-4">Cara: Nyanyikan lagu “cicak cicak di dinding” sambil menunjuk objek yang sesuai dan melakukan gerakan motorik sederhana. Ini mengintegrasikan input **auditori** (mendengar lagu), **visual** (melihat gerakan), dan **motorik** (meniru gerakan).</p>
-                    <div class="mb-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
-                        <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="laguGerakan-1" name="laguGerakanLevel" value="1" class="hidden"><label for="laguGerakan-1" class="radio-label">1</label>
-                            <input type="radio" id="laguGerakan-2" name="laguGerakanLevel" value="2" class="hidden"><label for="laguGerakan-2" class="radio-label">2</label>
-                            <input type="radio" id="laguGerakan-3" name="laguGerakanLevel" value="3" class="hidden"><label for="laguGerakan-3" class="radio-label">3</label>
-                            <input type="radio" id="laguGerakan-4" name="laguGerakanLevel" value="4" class="hidden"><label for="laguGerakan-4" class="radio-label">4</label>
-                            <input type="radio" id="laguGerakan-5" name="laguGerakanLevel" value="5" class="hidden"><label for="laguGerakan-5" class="radio-label">5</label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="laguGerakanSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Opsional):</label>
-                        <input type="text" id="laguGerakanSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: Ikut 80% gerakan">
-                    </div>
-                    <div>
-                        <label for="laguGerakanCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="laguGerakanCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Aktivitas 5: Responsif gesture -->
-                <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Responsif gesture</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Bangun makna komunikasi</p>
-                    <p class="text-sm text-gray-600 mb-4">Cara: Ketika anak menunjuk suatu objek atau melakukan gesture, segera berikan respons verbal dan visual yang sesuai ("Oh, mau air ya?" sambil menunjukkan air). Ini membantu anak memahami bahwa gesture memiliki makna dan memicu respons verbal.</p>
-
-                    <div class="mb-3 mt-4"> <!-- Added mt-4 for spacing -->
+                    <div class="mb-3 mt-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
                             <input type="radio" id="responsifGesture-1" name="responsifGestureLevel" value="1" class="hidden"><label for="responsifGesture-1" class="radio-label">1</label>
@@ -605,37 +511,38 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="responsifGestureSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 3x gesture baru):</label>
-                        <input type="text" id="responsifGestureSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 3x gesture baru">
+                        <label for="responsifGestureSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="responsifGestureSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 2 gesture baru.">
                     </div>
                     <div>
                         <label for="responsifGestureCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="responsifGestureCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <textarea id="responsifGestureCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Misal menunjuk air → bilang “mau air”."></textarea>
                     </div>
                 </div>
 
-                <!-- Aktivitas BARU: Respons Reseptif Bahasa (Receptive Language Response) -->
+                <!-- Aktivitas C: Respons Reseptif Bahasa -->
                 <div class="activity-card p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-green-700 mb-3">Respons Reseptif Bahasa (Receptive Language Response)</h3>
-                    <p class="text-sm text-gray-600 mb-2">Tujuan: Pemahaman dan respons perintah/pertanyaan verbal</p>
-                    <p class="text-sm text-gray-600 mb-4">Penjelasan: Anak menerima, memahami, dan merespons perintah atau pertanyaan verbal dari orang dewasa melalui pilihan gambar atau tindakan yang sesuai. Contoh: "Kapan kamu mandi?" (minta menunjuk gambar mandi), "Mana bolanya?" (minta menunjuk bola).</p>
+                    <h3 class="font-bold text-lg text-green-700 mb-3">Respons Reseptif Bahasa</h3>
+                    <p class="text-sm text-gray-600 mb-2">Kategori: Komunikasi, Kognitif.</p>
+                    <p class="text-sm text-gray-600 mb-2">Tujuan: Memahami pertanyaan & memilih jawaban benar.</p>
+                    <p class="text-sm text-gray-600 mb-4">Kegiatan: Tanya “Mana embernya?” sambil memberi opsi gambar.</p>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Level Respons (1-5):</label>
                         <div class="flex flex-wrap gap-2">
-                            <input type="radio" id="receptiveLang-1" name="receptiveLangLevel" value="1" class="hidden"><label for="receptiveLang-1" class="radio-label">1</label>
-                            <input type="radio" id="receptiveLang-2" name="receptiveLangLevel" value="2" class="hidden"><label for="receptiveLang-2" class="radio-label">2</label>
-                            <input type="radio" id="receptiveLang-3" name="receptiveLangLevel" value="3" class="hidden"><label for="receptiveLang-3" class="radio-label">3</label>
-                            <input type="radio" id="receptiveLang-4" name="receptiveLangLevel" value="4" class="hidden"><label for="receptiveLang-4" class="radio-label">4</label>
-                            <input type="radio" id="receptiveLang-5" name="receptiveLangLevel" value="5" class="hidden"><label for="receptiveLang-5" class="radio-label">5</label>
+                            <input type="radio" id="responsReseptif-1" name="responsReseptifLevel" value="1" class="hidden"><label for="responsReseptif-1" class="radio-label">1</label>
+                            <input type="radio" id="responsReseptif-2" name="responsReseptifLevel" value="2" class="hidden"><label for="responsReseptif-2" class="radio-label">2</label>
+                            <input type="radio" id="responsReseptif-3" name="responsReseptifLevel" value="3" class="hidden"><label for="responsReseptif-3" class="radio-label">3</label>
+                            <input type="radio" id="responsReseptif-4" name="responsReseptifLevel" value="4" class="hidden"><label for="responsReseptif-4" class="radio-label">4</label>
+                            <input type="radio" id="responsReseptif-5" name="responsReseptifLevel" value="5" class="hidden"><label for="responsReseptif-5" class="radio-label">5</label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="receptiveLangSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas (Contoh: 4/5 respons benar):</label>
-                        <input type="text" id="receptiveLangSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 4/5 respons benar">
+                        <label for="responsReseptifSkor" class="block text-sm font-medium text-gray-700 mb-1">Skor/Kuantitas:</label>
+                        <input type="text" id="responsReseptifSkor" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Contoh: 4/5 respons benar.">
                     </div>
                     <div>
-                        <label for="receptiveLangCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
-                        <textarea id="receptiveLangCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Observasi spesifik..."></textarea>
+                        <label for="responsReseptifCatatan" class="block text-sm font-medium text-gray-700 mb-1">Catatan Detail:</label>
+                        <textarea id="responsReseptifCatatan" rows="2" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" placeholder="Catat jika butuh pengulangan instruksi."></textarea>
                     </div>
                 </div>
             </div>
@@ -805,12 +712,12 @@
 
                 // Collect data for Neuro-Sensory Therapy activities
                 const neuroSensoryActivities = [
-                    { id: "jalanPagi", name: "Jalan pagi rutin", purpose: "Proprioseptif & vestibular" },
-                    { id: "mainAir", name: "Main air struktural", purpose: "Taktil & visual fokus" },
-                    { id: "brushing", name: "Brushing + tekanan dalam", purpose: "Taktil calming & proprioseptif" },
-                    { id: "lemparTarget", name: "Lempar target", purpose: "Modulasi gerak" },
-                    { id: "ceritaVisual", name: "Cerita visual dengan gambar", purpose: "Auditori & komunikasi" },
-                    { id: "rutinitasMandi", name: "Rutinitas Terstruktur", purpose: "Transisi, Regulasi Sensoris, Pemahaman Urutan" }
+                    { id: "tantanganCepat", name: "Tantangan Cepat", purpose: "Proprioseptif & vestibular, koordinasi tubuh, transisi fokus" },
+                    { id: "pemimpinTim", name: "Pemimpin Tim", purpose: "Taktil + proprioseptif, keterampilan sosial, bahasa instruksi" },
+                    { id: "targetJuara", name: "Target Juara", purpose: "Modulasi gerak, fokus visual, pengaturan tenaga" },
+                    { id: "bosCerita", name: "Bos Cerita", purpose: "Auditori, pemahaman reseptif & ekspresif, menyusun urutan" },
+                    { id: "brushingTekanan", name: "Brushing + Tekanan Dalam", purpose: "Taktil calming + proprioseptif, membantu tidur" },
+                    { id: "rutinitasMandiVisual", name: "Rutinitas Mandi Visual", purpose: "Pemahaman urutan, transisi aktivitas" }
                 ];
                 neuroSensoryActivities.forEach(item => {
                     allActivityData.push({
@@ -825,12 +732,9 @@
 
                 // Collect data for Speech Therapy activities
                 const speechTherapyActivities = [
-                    { id: "ulangKata1", name: "Ulang kata 1 suku", purpose: "Artikulasi dasar" },
-                    { id: "mainAirWicara", name: "Main air: 'tuang air'", purpose: "Dua kata konkret" },
-                    { id: "puzzleGambar", name: "Puzzle gambar", purpose: "Perluasan kosa kata" },
-                    { id: "laguGerakan", name: "Lagu dengan gerakan", purpose: "Auditori-visual motor" },
-                    { id: "responsifGesture", name: "Responsif gesture", purpose: "Makna komunikasi" },
-                    { id: "receptiveLang", name: "Respons Reseptif Bahasa", purpose: "Pemahaman dan respons perintah/pertanyaan verbal" } // NEW activity
+                    { id: "latihanKata", name: "Latihan 1 Kata → 2 Kata", purpose: "Pemahaman & ekspresi visual-verbal" },
+                    { id: "responsifGesture", name: "Responsif Gesture", purpose: "Menghubungkan gesture → makna → kata" },
+                    { id: "responsReseptif", name: "Respons Reseptif Bahasa", purpose: "Pemahaman dan respons perintah/pertanyaan verbal" }
                 ];
                 speechTherapyActivities.forEach(item => {
                     allActivityData.push({
@@ -920,18 +824,15 @@
                 let colorIndex = 0;
 
                 const allActivityTypes = [
-                    { id: "jalanPagi", name: "Jalan pagi rutin" },
-                    { id: "mainAir", name: "Main air struktural" },
-                    { id: "brushing", name: "Brushing + tekanan dalam" },
-                    { id: "lemparTarget", name: "Lempar target" },
-                    { id: "ceritaVisual", name: "Cerita visual" },
-                    { id: "rutinitasMandi", name: "Rutinitas Terstruktur" },
-                    { id: "ulangKata1", name: "Ulang kata 1 suku" },
-                    { id: "mainAirWicara", name: "Main air wicara" },
-                    { id: "puzzleGambar", name: "Puzzle gambar" },
-                    { id: "laguGerakan", name: "Lagu dengan gerakan" },
-                    { id: "responsifGesture", name: "Responsif gesture" },
-                    { id: "receptiveLang", name: "Respons Reseptif Bahasa" } // NEW activity for chart
+                    { id: "tantanganCepat", name: "Tantangan Cepat" },
+                    { id: "pemimpinTim", name: "Pemimpin Tim" },
+                    { id: "targetJuara", name: "Target Juara" },
+                    { id: "bosCerita", name: "Bos Cerita" },
+                    { id: "brushingTekanan", name: "Brushing + Tekanan Dalam" },
+                    { id: "rutinitasMandiVisual", name: "Rutinitas Mandi Visual" },
+                    { id: "latihanKata", name: "Latihan 1 Kata → 2 Kata" },
+                    { id: "responsifGesture", name: "Responsif Gesture" },
+                    { id: "responsReseptif", name: "Respons Reseptif Bahasa" }
                 ];
 
                 allActivityTypes.forEach(activityMeta => {
